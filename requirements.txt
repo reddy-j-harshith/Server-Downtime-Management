@@ -1,0 +1,9 @@
+langgraph>=0.2.14
+langchain>=0.2.10
+langchain-mistralai>=0.1.7
+mistralai>=1.1.0
+pydantic>=2.6.0
+python-dotenv>=1.0.1
+rich>=13.7.1
+anyio>=4.4.0
+tenacity>=8.3.0
