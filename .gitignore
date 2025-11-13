@@ -1,3 +1,6 @@
-venv
+.env
+.env.local
+.env.*.local
+!.env.examplevenv
 __pycache__
 ./.env
