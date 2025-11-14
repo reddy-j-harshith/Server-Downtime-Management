@@ -1,11 +1,3 @@
-"""
-Topology Visualizer + Rich Cascade Simulator
-- topology JSON supports nodes, edges (optionally "weight"), faulty_nodes
-- realistic failure propagation with severity, edge weights, and hop multipliers
-- metric precursors: downstream metrics ramp up before failure
-- injection controls & schedule
-- trace animation (play/step) highlighting nodes in event order
-"""
 import streamlit as st
 import json, uuid, random, time, io, traceback
 from datetime import datetime, timedelta
@@ -13,7 +5,7 @@ import networkx as nx
 import pandas as pd
 import plotly.graph_objects as go
 # ------------- defaults / knobs -------------
-BASE_TS = datetime.utcnow()
+BASE_TS = datetime.now()
 DEFAULT_MINUTES = 6
 SENSOR_PERIOD = 5
 DEVICE_PERIOD = 7
@@ -293,7 +285,7 @@ def draw_graph(G, positions, status_map, selected_nodes=set(), small=True, activ
     fig.update_layout(margin=dict(l=10,r=10,t=10,b=10), xaxis=dict(visible=False), yaxis=dict(visible=False), height=420 if small else 640)
     return fig
 # ------------- UI -------------
-st.set_page_config(layout="wide", page_title="Rich Cascade Visualizer")
+st.set_page_config(layout="wide", page_title="Log Error Cascade Visualizer")
 st.title("Rich Cascade Visualizer")
 if "events" not in st.session_state:
     st.session_state["events"] = None
