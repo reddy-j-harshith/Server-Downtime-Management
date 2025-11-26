@@ -118,7 +118,6 @@ def run_orchestrator_simulation(
     if topology is None:
         emit(f"Loading topology from '{topology_path}'...")
         topology = load_topology(topology_path)
->>>>>>> 7d1e4e0 (Add Streamlit UI, RCA analysis, and visualization utilities)
     else:
         emit("Using topology provided in-memory...")
     emit("Initializing MultiAgentOrchestrator and agents...")
