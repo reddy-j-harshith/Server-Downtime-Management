@@ -1,0 +1,26 @@
+
+{
+  "nodes":[
+    {"id":"n-01","node_type":"device"},
+    {"id":"n-02","node_type":"device"},
+    {"id":"n-03","node_type":"device"},
+    {"id":"n-04","node_type":"device"},
+    {"id":"n-05","node_type":"device"},
+    {"id":"n-06","node_type":"device"}
+  ],
+  "edges":[
+    {"from":"n-01","to":"n-02"},
+    {"from":"n-02","to":"n-03"},
+    {"from":"n-03","to":"n-04"},
+    {"from":"n-04","to":"n-05"},
+    {"from":"n-05","to":"n-06"},
+    {"from":"n-01","to":"n-03"},
+    {"from":"n-02","to":"n-04"},
+    {"from":"n-03","to":"n-05"},
+    {"from":"n-02","to":"n-06"},
+    {"from":"n-01","to":"n-05"}
+  ],
+  "faulty_nodes":[
+    {"node_id":"n-01","inject_at_minute":0}
+  ]
+}

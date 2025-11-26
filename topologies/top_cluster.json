@@ -1,0 +1,15 @@
+
+{
+  "nodes":[
+    {"id":"a1","node_type":"device"},{"id":"a2","node_type":"device"},{"id":"a3","node_type":"device"},
+    {"id":"b1","node_type":"device"},{"id":"b2","node_type":"device"},{"id":"b3","node_type":"device"}
+  ],
+  "edges":[
+    {"from":"a1","to":"a2"},{"from":"a2","to":"a3"},{"from":"a3","to":"a1"},
+    {"from":"b1","to":"b2"},{"from":"b2","to":"b3"},{"from":"b3","to":"b1"},
+    {"from":"a2","to":"b2"}  
+  ],
+  "faulty_nodes":[
+    {"node_id":"a1","inject_at_minute":0}
+  ]
+}

@@ -1,0 +1,19 @@
+
+{
+  "nodes":[
+    {"id":"s-001","node_type":"sensor"},{"id":"s-002","node_type":"sensor"},
+    {"id":"d-01","node_type":"device"},{"id":"d-02","node_type":"device"},{"id":"d-03","node_type":"device"},
+    {"id":"d-04","node_type":"device"},{"id":"d-05","node_type":"device"},{"id":"d-06","node_type":"device"},
+    {"id":"d-07","node_type":"device"},{"id":"d-08","node_type":"device"}
+  ],
+  "edges":[
+    {"from":"s-001","to":"d-01"},{"from":"s-002","to":"d-02"},{"from":"d-01","to":"d-03"},
+    {"from":"d-02","to":"d-03"},{"from":"d-03","to":"d-04"},{"from":"d-04","to":"d-05"},
+    {"from":"d-04","to":"d-06"},{"from":"d-06","to":"d-07"},{"from":"d-05","to":"d-08"}
+  ],
+  "faulty_nodes":[
+    {"node_id":"s-001","inject_at_minute":0},
+    {"node_id":"d-07","inject_rate_per_minute":0.0008}
+  ]
+}
+

@@ -1,0 +1,29 @@
+{
+  "nodes": [
+    {"id": "s-001", "node_type": "sensor", "layer": "L1", "meta": {"loc":"roomA"}},
+    {"id": "s-002", "node_type": "sensor", "layer": "L1", "meta": {"loc":"roomB"}},
+    {"id": "s-003", "node_type": "sensor", "layer": "L1", "meta": {"loc":"roomC"}},
+    {"id": "s-004", "node_type": "sensor", "layer": "L1", "meta": {"loc":"roomD"}},
+    {"id": "d-01",  "node_type": "device", "layer": "L2"},
+    {"id": "d-02",  "node_type": "device", "layer": "L2"},
+    {"id": "d-03",  "node_type": "device", "layer": "L2"},
+    {"id": "d-04",  "node_type": "device", "layer": "L2"},
+    {"id": "d-05",  "node_type": "device", "layer": "L2"},
+    {"id": "d-06",  "node_type": "device", "layer": "L2"}
+  ],
+  "edges": [
+    {"from": "s-001", "to": "d-01"},
+    {"from": "s-002", "to": "d-01"},
+    {"from": "s-003", "to": "d-02"},
+    {"from": "s-004", "to": "d-02"},
+    {"from": "d-01",  "to": "d-02"},
+    {"from": "d-02",  "to": "d-03"},
+    {"from": "d-03",  "to": "d-04"},
+    {"from": "d-04",  "to": "d-05"},
+    {"from": "d-05",  "to": "d-06"}
+  ],
+  "faulty_nodes": [
+    {"node_id": "s-001", "inject_at_minute": 0},
+    {"node_id": "d-06",  "inject_rate_per_minute": 0.001}
+  ]
+}
