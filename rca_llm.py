@@ -11,7 +11,7 @@ TODO: Replace the heuristic implementation with a real LLM call
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
@@ -20,6 +20,7 @@ def generate_llm_rca(
     report: Dict[str, Any],
     events: pd.DataFrame,
     topology: Dict[str, Any],
+    predictive_results: Optional[List[Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     """
     Generate a heuristic "LLM-style" RCA for the given simulation output.
@@ -133,6 +134,27 @@ def generate_llm_rca(
     for r in remediation:
         lines.append(f"- {r}")
 
+    predictive_meta = {}
+    if predictive_results:
+        lines.append("")
+        lines.append("## Predicted High-Risk Nodes")
+        for idx, res in enumerate(predictive_results[:5], start=1):
+            node_id = res.get("node_id", "unknown")
+            score = res.get("final_score", 0.0)
+            ttf_val = res.get("ttf")
+            ttf = "N/A" if ttf_val is None else f"{ttf_val:.2f}"
+            lines.append(f"- #{idx} `{node_id}` — score: {score:.2f}, time-to-failure: {ttf}")
+        predictive_meta = {
+            "top_nodes": [
+                {
+                    "node_id": res.get("node_id"),
+                    "final_score": res.get("final_score"),
+                    "ttf": res.get("ttf"),
+                }
+                for res in predictive_results[:10]
+            ]
+        }
+
     markdown = "\n".join(lines)
 
     meta = {
@@ -140,6 +162,7 @@ def generate_llm_rca(
         "fault_count": len(faults),
         "plan_count": len(plans),
         "faulty_nodes": faulty_nodes,
+        "predictive": predictive_meta,
     }
 
     # Structured JSON output
@@ -165,6 +188,7 @@ def generate_llm_rca(
         "markdown": markdown,
         "json": rca_json,
         "meta": meta,
+        "predictive": predictive_results or [],
     }
 
 

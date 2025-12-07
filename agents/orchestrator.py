@@ -7,6 +7,7 @@ from .planner import ReActPlanner
 from .domain_recovery import DomainRecoveryAgent
 from .status_memory import StatusMemoryAgent
 from .heuristic_memory import HeuristicMemoryAgent
+from .predictive_risk_agent import PredictiveRiskAgent
 
 class MultiAgentOrchestrator:
     def __init__(self, topology_graph=None):
@@ -22,6 +23,7 @@ class MultiAgentOrchestrator:
 
         self.detected_faults = []
         self.executed_plans = []
+        self.predictive_risk_results = []
 
     def process_events_from_dataframe(self, df):
         self.ingestion.ingest_from_dataframe(df)
@@ -40,6 +42,8 @@ class MultiAgentOrchestrator:
                 exec_result = self.domain.execute_plan(plan)
                 self.executed_plans.append({"plan": plan, "result": exec_result})
                 self.heuristic_memory.store_case({"fault": fault, "plan": plan, "strategy": classified.get("recovery_strategy")})
+        predictive = PredictiveRiskAgent()
+        self.predictive_risk_results = predictive.topk(df, self.dep_graph, k=10)
 
     def generate_report(self):
         return {

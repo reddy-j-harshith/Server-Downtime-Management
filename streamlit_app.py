@@ -42,6 +42,7 @@ for _cls in (DomainRecoveryAgent, HeuristicMemoryAgent, ReActPlanner, Classifica
 
 # Import project functions
 from agents.orchestrator import MultiAgentOrchestrator
+from agents.predictive_risk_agent import PredictiveRiskAgent
 from rca_llm import generate_llm_rca
 from test import (
     build_dependency_graph_from_topology,
@@ -50,6 +51,7 @@ from test import (
     simulate_events_from_topology,
 )
 from utils import nx_to_plotly_figure
+from utils.predictive_utils import download_json_bytes, results_to_markdown
 
 
 def _init_session_state() -> None:
@@ -65,6 +67,7 @@ def _init_session_state() -> None:
         "auto_run_enabled": False,
         "simulation_status": "idle",
         "event_count": 0,
+        "predictive_results": [],
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -127,6 +130,24 @@ def _append_log(msg: str, placeholder) -> None:
 def _generate_trace_id() -> str:
     """Generate a unique trace ID for events."""
     return str(uuid.uuid4())[:8]
+
+
+@st.cache_resource
+def get_predictive_agent() -> PredictiveRiskAgent:
+    return PredictiveRiskAgent()
+
+
+def _compute_predictive_results(result: Optional[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    if not result:
+        return []
+    orchestrator = result.get("orchestrator")
+    dep_graph = getattr(orchestrator, "dep_graph", None) if orchestrator else None
+    events = result.get("events")
+    if dep_graph is None or events is None:
+        return []
+    events_df = events if isinstance(events, pd.DataFrame) else pd.DataFrame(events)
+    agent = get_predictive_agent()
+    return agent.topk(events_df, dep_graph, k=10)
 
 
 def main() -> None:
@@ -236,6 +257,7 @@ def main() -> None:
         edges = topology_dict.get("edges", []) if topology_dict else []
         detected_fault_nodes = []
         root_cause_candidates = []
+    risk_results = st.session_state.get("predictive_results", [])
 
     col1, col2, col3, col4 = st.columns(4)
     with col1:
@@ -246,6 +268,21 @@ def main() -> None:
         st.metric("Detected Faulty Nodes", len(detected_fault_nodes))
     with col4:
         st.metric("Root Cause Candidates", len(root_cause_candidates))
+
+    if risk_results:
+        st.markdown("### Predictive Risk (Top 10)")
+        risk_df = pd.DataFrame(risk_results)
+        st.dataframe(risk_df[["node_id", "final_score", "ttf", "impact"]])
+        st.download_button(
+            "Download predictive risk (.md)",
+            data=results_to_markdown(risk_results).encode("utf-8"),
+            file_name="predictive_risk.md",
+        )
+        st.download_button(
+            "Download predictive risk (.json)",
+            data=download_json_bytes(risk_results),
+            file_name="predictive_risk.json",
+        )
 
     # Log panel
     st.markdown("## 📝 Simulation Logs")
@@ -284,6 +321,8 @@ def main() -> None:
                 events_df = result.get("events", pd.DataFrame())
                 st.session_state["event_count"] = len(events_df) if isinstance(events_df, pd.DataFrame) else 0
                 _append_log("Simulation completed successfully.", log_placeholder)
+            with st.spinner("Computing predictive risk..."):
+                st.session_state["predictive_results"] = _compute_predictive_results(result)
                 st.rerun()
         except Exception:
             tb = traceback.format_exc()
@@ -337,10 +376,14 @@ def main() -> None:
                         "details": report.get("details", {}),
                         "detected_fault_nodes": detected_fault_nodes,
                         "root_cause_candidates": root_cause_candidates,
+                        "orchestrator": orch,
                     }
 
                     st.session_state["current_step"] = next_step
                     st.session_state["event_count"] = len(events_df[events_df["ts"] <= next_step])
+                    st.session_state["predictive_results"] = _compute_predictive_results(
+                        st.session_state["last_result"]
+                    )
                     st.rerun()
                 else:
                     _append_log("Reached end of simulation window.", log_placeholder)
@@ -377,8 +420,12 @@ def main() -> None:
                     if src and dst:
                         G.add_edge(src, dst)
 
+                high_risk_ids = [res["node_id"] for res in risk_results if res.get("final_score", 0) > 0.5]
                 fig = nx_to_plotly_figure(
-                    G, faulty_nodes=detected_fault_nodes, rca_nodes=root_cause_candidates
+                    G,
+                    faulty_nodes=detected_fault_nodes,
+                    rca_nodes=root_cause_candidates,
+                    risk_nodes=high_risk_ids,
                 )
                 fig.update_layout(
                     height=600,
@@ -492,7 +539,12 @@ def main() -> None:
                     if not isinstance(events_for_rca, pd.DataFrame):
                         events_for_rca = pd.DataFrame(events_for_rca)
 
-                    rca = generate_llm_rca(report_for_rca, events_for_rca, topology)
+                    rca = generate_llm_rca(
+                        report_for_rca,
+                        events_for_rca,
+                        topology,
+                        predictive_results=risk_results,
+                    )
 
                     st.markdown("#### Dependency Graph Candidates")
                     st.write(root_cause_candidates)

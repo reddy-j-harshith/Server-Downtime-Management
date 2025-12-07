@@ -17,6 +17,7 @@ def nx_to_plotly_figure(
     G: nx.DiGraph,
     faulty_nodes: Optional[Sequence[str]] = None,
     rca_nodes: Optional[Sequence[str]] = None,
+    risk_nodes: Optional[Sequence[str]] = None,
 ) -> go.Figure:
     """
     Convert a NetworkX directed graph into a Plotly figure.
@@ -39,6 +40,7 @@ def nx_to_plotly_figure(
 
     faulty: Set[str] = set(faulty_nodes or [])
     rca: Set[str] = set(rca_nodes or [])
+    risk: Set[str] = set(risk_nodes or [])
 
     if len(G.nodes) == 0:
         return go.Figure()
@@ -63,7 +65,7 @@ def nx_to_plotly_figure(
     )
 
     # Separate nodes into categories
-    def make_node_trace(nodes: Iterable[str], color: str, name: str) -> go.Scatter:
+    def make_node_trace(nodes: Iterable[str], color: str, name: str, size: int = 14) -> go.Scatter:
         xs: List[float] = []
         ys: List[float] = []
         texts: List[str] = []
@@ -79,14 +81,15 @@ def nx_to_plotly_figure(
             y=ys,
             mode="markers",
             hoverinfo="text",
-            marker=dict(size=14, color=color, line_width=1),
+            marker=dict(size=size, color=color, line_width=1),
             name=name,
             text=texts,
         )
 
-    normal_nodes = [n for n in G.nodes if n not in faulty and n not in rca]
-    faulty_only = [n for n in G.nodes if n in faulty and n not in rca]
+    normal_nodes = [n for n in G.nodes if n not in faulty and n not in rca and n not in risk]
+    faulty_only = [n for n in G.nodes if n in faulty and n not in rca and n not in risk]
     rca_only = [n for n in G.nodes if n in rca]
+    risk_only = [n for n in G.nodes if n in risk and n not in rca]
 
     traces: List[go.Scatter] = [edge_trace]
     if normal_nodes:
@@ -94,17 +97,22 @@ def nx_to_plotly_figure(
     if faulty_only:
         traces.append(make_node_trace(faulty_only, "#d62728", "Faulty"))
     if rca_only:
-        traces.append(make_node_trace(rca_only, "#9467bd", "RCA candidates"))
+        traces.append(make_node_trace(rca_only, "#9467bd", "RCA candidates", size=18))
+    if risk_only:
+        traces.append(make_node_trace(risk_only, "#ff7f0e", "Predictive risk", size=20))
 
     fig = go.Figure(data=traces)
     fig.update_layout(
         showlegend=True,
         hovermode="closest",
         margin=dict(b=20, l=5, r=5, t=40),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white"),
+        legend=dict(bgcolor="rgba(0,0,0,0.5)", font=dict(color="white")),
     )
-    fig.update_xaxes(showticklabels=False)
-    fig.update_yaxes(showticklabels=False)
+    fig.update_xaxes(showticklabels=False, gridcolor="rgba(255,255,255,0.1)")
+    fig.update_yaxes(showticklabels=False, gridcolor="rgba(255,255,255,0.1)")
 
     return fig
-
 
