@@ -1,0 +1,462 @@
+{
+  "nodes": [
+    {
+      "id": "n-0001",
+      "node_type": "service",
+      "layer": "L3",
+      "meta": {
+        "loc": "rack159",
+        "hw": "x86"
+      }
+    },
+    {
+      "id": "n-0002",
+      "node_type": "device",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack77",
+        "hw": "fpga"
+      }
+    },
+    {
+      "id": "n-0003",
+      "node_type": "service",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack59",
+        "hw": "x86"
+      }
+    },
+    {
+      "id": "n-0004",
+      "node_type": "sensor",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack200",
+        "hw": "arm"
+      }
+    },
+    {
+      "id": "n-0005",
+      "node_type": "sensor",
+      "layer": "L3",
+      "meta": {
+        "loc": "rack50",
+        "hw": "fpga"
+      }
+    },
+    {
+      "id": "n-0006",
+      "node_type": "device",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack90",
+        "hw": "arm"
+      }
+    },
+    {
+      "id": "n-0007",
+      "node_type": "sensor",
+      "layer": "L3",
+      "meta": {
+        "loc": "rack153",
+        "hw": "x86"
+      }
+    },
+    {
+      "id": "n-0008",
+      "node_type": "service",
+      "layer": "L1",
+      "meta": {
+        "loc": "rack156",
+        "hw": "arm"
+      }
+    },
+    {
+      "id": "n-0009",
+      "node_type": "device",
+      "layer": "L1",
+      "meta": {
+        "loc": "rack5",
+        "hw": "fpga"
+      }
+    },
+    {
+      "id": "n-0010",
+      "node_type": "service",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack134",
+        "hw": "fpga"
+      }
+    },
+    {
+      "id": "n-0011",
+      "node_type": "sensor",
+      "layer": "L3",
+      "meta": {
+        "loc": "rack131",
+        "hw": "x86"
+      }
+    },
+    {
+      "id": "n-0012",
+      "node_type": "sensor",
+      "layer": "L1",
+      "meta": {
+        "loc": "rack14",
+        "hw": "x86"
+      }
+    },
+    {
+      "id": "n-0013",
+      "node_type": "service",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack104",
+        "hw": "x86"
+      }
+    },
+    {
+      "id": "n-0014",
+      "node_type": "service",
+      "layer": "L1",
+      "meta": {
+        "loc": "rack191",
+        "hw": "arm"
+      }
+    },
+    {
+      "id": "n-0015",
+      "node_type": "sensor",
+      "layer": "L1",
+      "meta": {
+        "loc": "rack100",
+        "hw": "x86"
+      }
+    },
+    {
+      "id": "n-0016",
+      "node_type": "service",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack176",
+        "hw": "x86"
+      }
+    },
+    {
+      "id": "n-0017",
+      "node_type": "device",
+      "layer": "L3",
+      "meta": {
+        "loc": "rack105",
+        "hw": "x86"
+      }
+    },
+    {
+      "id": "n-0018",
+      "node_type": "device",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack158",
+        "hw": "arm"
+      }
+    },
+    {
+      "id": "n-0019",
+      "node_type": "device",
+      "layer": "L3",
+      "meta": {
+        "loc": "rack10",
+        "hw": "arm"
+      }
+    },
+    {
+      "id": "n-0020",
+      "node_type": "sensor",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack111",
+        "hw": "fpga"
+      }
+    },
+    {
+      "id": "n-0021",
+      "node_type": "device",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack185",
+        "hw": "fpga"
+      }
+    },
+    {
+      "id": "n-0022",
+      "node_type": "service",
+      "layer": "L3",
+      "meta": {
+        "loc": "rack48",
+        "hw": "arm"
+      }
+    },
+    {
+      "id": "n-0023",
+      "node_type": "sensor",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack65",
+        "hw": "fpga"
+      }
+    },
+    {
+      "id": "n-0024",
+      "node_type": "sensor",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack24",
+        "hw": "fpga"
+      }
+    },
+    {
+      "id": "n-0025",
+      "node_type": "sensor",
+      "layer": "L2",
+      "meta": {
+        "loc": "rack177",
+        "hw": "arm"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "n-0001",
+      "to": "n-0005",
+      "weight": 0.35
+    },
+    {
+      "from": "n-0002",
+      "to": "n-0024",
+      "weight": 0.51
+    },
+    {
+      "from": "n-0002",
+      "to": "n-0016",
+      "weight": 0.01
+    },
+    {
+      "from": "n-0003",
+      "to": "n-0007",
+      "weight": 0.22
+    },
+    {
+      "from": "n-0003",
+      "to": "n-0019",
+      "weight": 0.44
+    },
+    {
+      "from": "n-0004",
+      "to": "n-0023",
+      "weight": 0.16
+    },
+    {
+      "from": "n-0004",
+      "to": "n-0024",
+      "weight": 0.88
+    },
+    {
+      "from": "n-0004",
+      "to": "n-0022",
+      "weight": 0.03
+    },
+    {
+      "from": "n-0005",
+      "to": "n-0017",
+      "weight": 0.32
+    },
+    {
+      "from": "n-0006",
+      "to": "n-0013",
+      "weight": 0.43
+    },
+    {
+      "from": "n-0007",
+      "to": "n-0005",
+      "weight": 0.78
+    },
+    {
+      "from": "n-0007",
+      "to": "n-0001",
+      "weight": 0.1
+    },
+    {
+      "from": "n-0008",
+      "to": "n-0018",
+      "weight": 0.96
+    },
+    {
+      "from": "n-0009",
+      "to": "n-0003",
+      "weight": 0.08
+    },
+    {
+      "from": "n-0010",
+      "to": "n-0003",
+      "weight": 0.65
+    },
+    {
+      "from": "n-0011",
+      "to": "n-0005",
+      "weight": 0.84
+    },
+    {
+      "from": "n-0011",
+      "to": "n-0007",
+      "weight": 0.99
+    },
+    {
+      "from": "n-0012",
+      "to": "n-0001",
+      "weight": 0.54
+    },
+    {
+      "from": "n-0012",
+      "to": "n-0025",
+      "weight": 0.01
+    },
+    {
+      "from": "n-0013",
+      "to": "n-0024",
+      "weight": 0.45
+    },
+    {
+      "from": "n-0014",
+      "to": "n-0024",
+      "weight": 0.48
+    },
+    {
+      "from": "n-0015",
+      "to": "n-0014",
+      "weight": 0.48
+    },
+    {
+      "from": "n-0016",
+      "to": "n-0021",
+      "weight": 0.85
+    },
+    {
+      "from": "n-0016",
+      "to": "n-0025",
+      "weight": 0.23
+    },
+    {
+      "from": "n-0017",
+      "to": "n-0019",
+      "weight": 0.63
+    },
+    {
+      "from": "n-0018",
+      "to": "n-0010",
+      "weight": 0.21
+    },
+    {
+      "from": "n-0018",
+      "to": "n-0023",
+      "weight": 0.64
+    },
+    {
+      "from": "n-0018",
+      "to": "n-0011",
+      "weight": 0.44
+    },
+    {
+      "from": "n-0019",
+      "to": "n-0011",
+      "weight": 0.4
+    },
+    {
+      "from": "n-0020",
+      "to": "n-0018",
+      "weight": 0.39
+    },
+    {
+      "from": "n-0020",
+      "to": "n-0022",
+      "weight": 0.56
+    },
+    {
+      "from": "n-0021",
+      "to": "n-0005",
+      "weight": 0.96
+    },
+    {
+      "from": "n-0021",
+      "to": "n-0016",
+      "weight": 0.47
+    },
+    {
+      "from": "n-0021",
+      "to": "n-0002",
+      "weight": 0.37
+    },
+    {
+      "from": "n-0022",
+      "to": "n-0005",
+      "weight": 0.41
+    },
+    {
+      "from": "n-0022",
+      "to": "n-0017",
+      "weight": 0.97
+    },
+    {
+      "from": "n-0022",
+      "to": "n-0011",
+      "weight": 0.82
+    },
+    {
+      "from": "n-0023",
+      "to": "n-0024",
+      "weight": 0.01
+    },
+    {
+      "from": "n-0023",
+      "to": "n-0002",
+      "weight": 0.26
+    },
+    {
+      "from": "n-0024",
+      "to": "n-0017",
+      "weight": 0.2
+    },
+    {
+      "from": "n-0025",
+      "to": "n-0022",
+      "weight": 0.08
+    },
+    {
+      "from": "n-0025",
+      "to": "n-0011",
+      "weight": 0.28
+    }
+  ],
+  "faulty_nodes": [
+    {
+      "node_id": "n-0022",
+      "inject_at_minute": 2,
+      "severity": "high"
+    },
+    {
+      "node_id": "n-0004",
+      "inject_at_minute": 5,
+      "severity": "high"
+    },
+    {
+      "node_id": "n-0015",
+      "inject_at_minute": 3,
+      "severity": "medium"
+    }
+  ],
+  "meta": {
+    "generated_by": "generate_topology.py",
+    "n_nodes": 25
+  }
+}
